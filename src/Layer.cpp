@@ -3,6 +3,7 @@
 #include "Layer.hpp"
 #include "utils.hpp"
 #include <iostream>
+#include <fstream>
 
 Layer::Layer(size_t neurons, size_t previousLayerOutputs, LayerType layerType)
     : _layerType(layerType), _neuronsCount(neurons), _previousLayerOutputs(previousLayerOutputs)
@@ -135,6 +136,28 @@ void Layer::backpropagate(double learningRate)
     if (_layerType != LayerType::output)
     {
         _updateWeights(learningRate);
+    }
+}
+
+void Layer::writeWeightsData(std::ofstream &ofs)
+{
+    for(int i=0; i<_weights.rows(); i++)
+    {
+        for(int j=0; j<_weights.cols(); j++)
+        {
+            ofs << _weights(i, j) << std::endl;
+        }
+    }
+}
+
+void Layer::readWeightsData(std::ifstream &ifs)
+{
+    for(int i=0; i<_weights.rows(); i++)
+    {
+        for(int j=0; j<_weights.cols(); j++)
+        {
+            ifs >> _weights(i, j);
+        }
     }
 }
 

@@ -4,6 +4,7 @@
 #include <stdlib.h>
 #include <Eigen/Dense>
 #include <vector>
+#include <memory>
 
 enum class LayerType
 {
@@ -27,8 +28,10 @@ public:
     void backpropagate(double learningRate);
     double getMeanSquareError();
     int getPrediction();
+    void writeWeightsData(std::ofstream &ofs);
+    void readWeightsData(std::ifstream &ifs);
 
-private:
+//private:
     void _calculateDeltas();
     void _calculateOutputDeltas();
     void _calculateNonOutputDeltas();

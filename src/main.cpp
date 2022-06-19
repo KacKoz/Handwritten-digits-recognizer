@@ -15,7 +15,7 @@ int main(int argc, char *argv[])
     std::string trainFile = argv[1];
     Data trainingData;
     std::cout << "Reading training data..." << std::endl;
-    trainingData.readFromFile(trainFile);
+    //trainingData.readFromFile(trainFile);
 
     std::string testFile = argv[2];
     Data testingData;
@@ -25,14 +25,24 @@ int main(int argc, char *argv[])
     double lr = std::stod(argv[3]);
     int epochs = std::stoi(argv[4]);
 
-    std::string outputFilename = argv[5];
-
-    NeuralNet nn({28 * 28, 15, 10});
+    NeuralNet nn({28*28, 15, 10});
     nn.compile();
+    nn.train(trainingData, lr, epochs);
+
+
+    nn.save("model");
+
+    // NeuralNet nn;
+    // nn.load("model");
+
+    // std::cout << "\nAccuracy: " << 100 * nn.eval(testingData)<< "%\n";
+
+
+
+    std::string outputFilename = argv[5];
 
     std::vector<std::pair<u_int32_t, uint32_t>> digitAccuracyVec = accuracyVector();
 
-    nn.train(trainingData, lr, epochs);
 
     double accuracy = nn.eval(testingData, digitAccuracyVec);
 
@@ -47,5 +57,6 @@ int main(int argc, char *argv[])
     {
         std::cout << "Exception was thrown: " << ex.what() << std::endl;
     }
+  
     return 0;
 }

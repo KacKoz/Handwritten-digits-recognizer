@@ -1,6 +1,6 @@
 CC=g++
 INC=-I/usr/include/eigen3
-CFLAGS=-c -Wall -std=c++11 $(INC)
+CFLAGS=-c -Wall -std=c++11 $(INC) -g
 LDFLAGS=
 LDLIBS=
 SOURCEPATH=./src

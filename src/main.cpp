@@ -1,10 +1,13 @@
 #include "Data.hpp"
+#include <vector>
 #include <fstream>
 #include <iostream>
 #include "stdio.h"
 #include <iostream>
 #include "Neuralnet.hpp"
 #include "utils.hpp"
+
+#include "csvfile.h"
 
 
 int main(int argc, char *argv[])
@@ -26,7 +29,6 @@ int main(int argc, char *argv[])
     nn.compile();
     nn.train(trainingData, lr, epochs);
 
-    std::cout << "\nAccuracy: " << 100 * nn.eval(testingData)<< "%\n";
 
     nn.save("model");
 
@@ -35,5 +37,26 @@ int main(int argc, char *argv[])
 
     // std::cout << "\nAccuracy: " << 100 * nn.eval(testingData)<< "%\n";
 
+
+
+    std::string outputFilename = argv[5];
+
+    std::vector<std::pair<u_int32_t, uint32_t>> digitAccuracyVec = accuracyVector();
+
+
+    double accuracy = nn.eval(testingData, digitAccuracyVec);
+
+    std::cout << "\nAccuracy: " << 100 * accuracy << "%\n";
+
+    try
+    {
+        csvfile csv(outputFilename);
+        writeResults(csv, epochs, lr, accuracy, digitAccuracyVec);
+    }
+    catch (const std::exception &ex)
+    {
+        std::cout << "Exception was thrown: " << ex.what() << std::endl;
+    }
+  
     return 0;
 }

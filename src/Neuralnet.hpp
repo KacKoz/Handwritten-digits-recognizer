@@ -15,7 +15,7 @@ public:
     NeuralNet(){};
     void compile();
     void train(const Data& trainingData, double learningRate, uint32_t epochs);
-    double eval(const Data& evalData);
+    double eval(const Data &evalData, std::vector<std::pair<u_int32_t, u_int32_t>> &digitAccuracy);
     uint32_t predict(const Eigen::VectorXd& input);
     void load(std::string filename);
     void save(std::string filename);

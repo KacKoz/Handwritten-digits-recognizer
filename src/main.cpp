@@ -25,17 +25,17 @@ int main(int argc, char *argv[])
     double lr = std::stod(argv[3]);
     int epochs = std::stoi(argv[4]);
 
-    NeuralNet nn({28*28, 15, 10});
-    nn.compile();
-    nn.train(trainingData, lr, epochs);
+    // NeuralNet nn({28*28, 15, 10});
+    // nn.compile();
+    // nn.train(trainingData, lr, epochs);
 
 
-    nn.save("model");
+    // nn.save("model");
 
-    // NeuralNet nn;
-    // nn.load("model");
+    NeuralNet nn;
+    nn.load("model");
 
-    // std::cout << "\nAccuracy: " << 100 * nn.eval(testingData)<< "%\n";
+    //std::cout << "\nAccuracy: " << 100 * nn.eval(testingData) << "%\n";
 
 
 

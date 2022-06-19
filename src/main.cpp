@@ -1,30 +1,12 @@
 #include "Data.hpp"
+#include <vector>
 #include <fstream>
 #include <iostream>
 #include "stdio.h"
 #include <iostream>
 #include "Neuralnet.hpp"
-
-
-Eigen::VectorXd getExpectedVector(int a)
-{
-    Eigen::VectorXd res(10);
-    for(int i=0; i<10; i++)
-    {
-        if(i == a)
-            res[i] = 1;
-        else
-            res[i] = 0;
-    }
-
-    return res;
-}
-
-void a(std::vector<int> e)
-{
-    for(auto i: e)
-        std::cout<<i << "\n";
-}
+#include "utils.hpp"
+#include "csvfile.h"
 
 int main(int argc, char *argv[])
 {
@@ -39,13 +21,29 @@ int main(int argc, char *argv[])
     testingData.readFromFile(testFile);
 
     double lr = std::stod(argv[3]);
+    int epochs = std::stoi(argv[4]);
+    std::string outputFilename = argv[5];
 
-    NeuralNet nn({28*28, 15, 10});
+    NeuralNet nn({28 * 28, 15, 10});
     nn.compile();
 
-    nn.train(trainingData, lr, 1);
+    std::vector<std::pair<u_int32_t, uint32_t>> digitAccuracyVec = accuracyVector();
 
-    std::cout << "\nAccuracy: " << 100 * nn.eval(testingData)<< "%\n";
+    nn.train(trainingData, lr, epochs);
+
+    double accuracy = nn.eval(testingData, digitAccuracyVec);
+
+    std::cout << "\nAccuracy: " << 100 * accuracy << "%\n";
+
+    try
+    {
+        csvfile csv(outputFilename);
+        writeResults(csv, epochs, lr, accuracy, digitAccuracyVec);
+    }
+    catch (const std::exception &ex)
+    {
+        std::cout << "Exception was thrown: " << ex.what() << std::endl;
+    }
 
     return 0;
 }

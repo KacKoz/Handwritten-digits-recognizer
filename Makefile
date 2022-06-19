@@ -5,7 +5,10 @@ LDFLAGS=
 LDLIBS=
 SOURCEPATH=./src
 SOURCES=$(SOURCEPATH)/main.cpp \
-	$(SOURCEPATH)/Layer.cpp
+	$(SOURCEPATH)/Layer.cpp \
+	$(SOURCEPATH)/Data.cpp \
+	$(SOURCEPATH)/Neuralnet.cpp \
+	$(SOURCEPATH)/utils.cpp 
 
 
 OBJECTS=$(SOURCES:.cpp=.o)

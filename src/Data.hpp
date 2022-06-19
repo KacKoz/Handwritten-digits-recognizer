@@ -1,4 +1,7 @@
 
+#ifndef DATA_H
+#define DATA_H
+
 #include "string.h"
 #include <Eigen/Dense>
 #include <sstream>
@@ -14,7 +17,8 @@ public:
     ~Data();
     void readFromFile(const std::string filename);
 
-private:
     std::vector<Eigen::VectorXd> images;
     std::vector<int> expectedDigit;
 };
+
+#endif

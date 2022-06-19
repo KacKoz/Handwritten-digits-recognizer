@@ -2,9 +2,11 @@
 #include <random>
 #include "Layer.hpp"
 #include "utils.hpp"
+#include <iostream>
 
-Layer::Layer(size_t neurons, size_t previousLayerOutputs, LayerType layerType, double learningRate) 
-    : _layerType(layerType), _neuronsCount(neurons), _previousLayerOutputs(previousLayerOutputs), _learningRate(learningRate)
+
+Layer::Layer(size_t neurons, size_t previousLayerOutputs, LayerType layerType) 
+    : _layerType(layerType), _neuronsCount(neurons), _previousLayerOutputs(previousLayerOutputs)
 {
     _outputs = Eigen::VectorXd::Zero(neurons + ((layerType == LayerType::output) ? 0 : 1));
     _inputs = Eigen::VectorXd::Zero(neurons);
@@ -62,7 +64,6 @@ void Layer::feedForward()
         }
     }
 
-
     if(_layerType != LayerType::output)
     {
         Eigen::VectorXd nextLayerInput = _weights*_outputs;
@@ -106,9 +107,9 @@ void Layer::_calculateNonOutputDeltas()
     }
 }
 
-void Layer::_updateWeights()
+void Layer::_updateWeights(double learningRate)
 {
-    _weights += _learningRate * (_nextLayer->getDeltas() * _outputs.transpose());
+    _weights += learningRate * (_nextLayer->getDeltas() * _outputs.transpose());
 }
 
 void Layer::_calculateDeltas()
@@ -123,11 +124,40 @@ void Layer::_calculateDeltas()
     }
 }
 
-void Layer::backpropagate()
+void Layer::backpropagate(double learningRate)
 {
     _calculateDeltas();
     if(_layerType != LayerType::output)
     {
-        _updateWeights();
+        _updateWeights(learningRate);
     }
+}
+
+double Layer::getMeanSquareError()
+{
+    if(_layerType != LayerType::output)
+        throw std::runtime_error("MSE should only be calculated in output layer!");
+
+    double error = 0;
+    for(int i=0; i<_neuronsCount; i++)
+    {
+        error += 0.5 * pow(_expectedOutput[i] - _outputs[i], 2);
+    }
+
+    return error;
+}
+
+double Layer::getPrediction()
+{
+    int prediction = 0;
+
+    for(int i=1; i<_neuronsCount; i++)
+    {
+        if(_outputs[i] > _outputs[prediction])
+        {
+            prediction = i;
+        }
+    }
+
+    return prediction;
 }

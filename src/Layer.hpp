@@ -10,7 +10,7 @@ enum class LayerType {input, hidden, output};
 class Layer
 {
 public:
-    Layer(size_t neurons, size_t previousLayerOutputs, LayerType layerType, double learningRate);
+    Layer(size_t neurons, size_t previousLayerOutputs, LayerType layerType);
     
     void connect(Layer* layer);
     void feedForward();
@@ -19,14 +19,15 @@ public:
     const Eigen::VectorXd& getDeltas();
     void setExpectedOutput(const Eigen::VectorXd& expectedOutput);
     void feedInput(Eigen::VectorXd& input);
-    void backpropagate();
-
+    void backpropagate(double learningRate);
+    double getMeanSquareError();
+    double getPrediction();
 
 private:
     void _calculateDeltas();
     void _calculateOutputDeltas();
     void _calculateNonOutputDeltas();
-    void _updateWeights();
+    void _updateWeights(double learningRate);
 
     Layer* _nextLayer;
     Eigen::VectorXd _inputs;

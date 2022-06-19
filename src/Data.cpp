@@ -1,4 +1,4 @@
-#include "Data.h"
+#include "Data.hpp"
 
 Data::Data()
 {
@@ -6,9 +6,10 @@ Data::Data()
 
 void Data::readFromFile(const std::string filename)
 {
+    //std::cout << "ELko\n";
     std::ifstream fileData(filename);
     std::string line;
-
+    //std::cout << "ELko\n";
     int counter = 0;
     while (std::getline(fileData, line))
     {
@@ -35,6 +36,8 @@ void Data::readFromFile(const std::string filename)
         }
         this->images.push_back(image);
     }
+
+    //fileData.close();
     // std::cout << "Read" << this->expectedDigit.size() << "\n";
 }
 

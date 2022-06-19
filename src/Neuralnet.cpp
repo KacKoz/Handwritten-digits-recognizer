@@ -5,11 +5,13 @@ NeuralNet::NeuralNet(const std::vector<uint32_t> &sizes)
 {
     _layers.reserve(sizes.size());
     _layers.emplace_back(sizes[0], -1, LayerType::input);
-    for (int i = 1; i <= sizes.size() - 2; i++)
+
+    for(int i=1; i<=sizes.size()-2; i++)
     {
-        _layers.emplace_back(sizes[i], _layers[i - 1].getNeuronsCount(), LayerType::hidden);
+        _layers.emplace_back(sizes[i], _layers[i-1].getNeuronsCount(), LayerType::hidden);
     }
-    _layers.emplace_back(sizes[sizes.size() - 1], _layers[sizes.size() - 2].getNeuronsCount(), LayerType::output);
+    _layers.emplace_back(sizes[sizes.size()-1], _layers[sizes.size()-2].getNeuronsCount(), LayerType::output);
+
 }
 
 void NeuralNet::compile()
@@ -40,7 +42,8 @@ void NeuralNet::train(const Data &trainingData, double learningRate, uint32_t ep
                 it->backpropagate(learningRate);
             }
 
-            // std::cout << _layers.back().getMeanSquareError() << std::endl;
+            //std::cout << _layers.back().getMeanSquareError() << std::endl;
+
         }
     }
 }

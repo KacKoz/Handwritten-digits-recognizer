@@ -6,7 +6,9 @@
 #include <iostream>
 #include "Neuralnet.hpp"
 #include "utils.hpp"
+
 #include "csvfile.h"
+
 
 int main(int argc, char *argv[])
 {
@@ -22,6 +24,7 @@ int main(int argc, char *argv[])
 
     double lr = std::stod(argv[3]);
     int epochs = std::stoi(argv[4]);
+
     std::string outputFilename = argv[5];
 
     NeuralNet nn({28 * 28, 15, 10});
@@ -44,6 +47,5 @@ int main(int argc, char *argv[])
     {
         std::cout << "Exception was thrown: " << ex.what() << std::endl;
     }
-
     return 0;
 }

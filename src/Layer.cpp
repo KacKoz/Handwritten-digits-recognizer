@@ -8,6 +8,11 @@
 Layer::Layer(size_t neurons, size_t previousLayerOutputs, LayerType layerType) 
     : _layerType(layerType), _neuronsCount(neurons), _previousLayerOutputs(previousLayerOutputs)
 {
+    if(layerType == LayerType::input)
+    {
+        _previousLayerOutputs = 1;
+    }
+
     _outputs = Eigen::VectorXd::Zero(neurons + ((layerType == LayerType::output) ? 0 : 1));
     _inputs = Eigen::VectorXd::Zero(neurons);
 
@@ -147,7 +152,7 @@ double Layer::getMeanSquareError()
     return error;
 }
 
-double Layer::getPrediction()
+int Layer::getPrediction()
 {
     int prediction = 0;
 

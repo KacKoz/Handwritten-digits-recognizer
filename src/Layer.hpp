@@ -21,7 +21,7 @@ public:
     void feedInput(Eigen::VectorXd& input);
     void backpropagate(double learningRate);
     double getMeanSquareError();
-    double getPrediction();
+    int getPrediction();
 
 private:
     void _calculateDeltas();

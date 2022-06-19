@@ -5,20 +5,25 @@
 #include <Eigen/Dense>
 #include <vector>
 
-enum class LayerType {input, hidden, output};
+enum class LayerType
+{
+    input,
+    hidden,
+    output
+};
 
 class Layer
 {
 public:
     Layer(size_t neurons, size_t previousLayerOutputs, LayerType layerType);
-    
-    void connect(Layer* layer);
+
+    void connect(Layer *layer);
     void feedForward();
     size_t getInputsCount();
     size_t getNeuronsCount();
-    const Eigen::VectorXd& getDeltas();
-    void setExpectedOutput(const Eigen::VectorXd& expectedOutput);
-    void feedInput(Eigen::VectorXd& input);
+    const Eigen::VectorXd &getDeltas();
+    void setExpectedOutput(const Eigen::VectorXd &expectedOutput);
+    void feedInput(Eigen::VectorXd &input);
     void backpropagate(double learningRate);
     double getMeanSquareError();
     int getPrediction();
@@ -29,7 +34,7 @@ private:
     void _calculateNonOutputDeltas();
     void _updateWeights(double learningRate);
 
-    Layer* _nextLayer;
+    Layer *_nextLayer;
     Eigen::VectorXd _inputs;
     Eigen::MatrixXd _weights;
     Eigen::VectorXd _outputs;
@@ -40,9 +45,6 @@ private:
     Eigen::VectorXd _deltas;
     Eigen::VectorXd _expectedOutput;
     double _learningRate;
-
 };
-
-
 
 #endif

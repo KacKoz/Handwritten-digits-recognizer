@@ -81,11 +81,11 @@ double NeuralNet::eval(const Data &evalData, std::vector<std::pair<u_int32_t, u_
         if (_layers.back().getPrediction() == evalData.expectedDigit[i])
         {
             correct += 1;
-            ++digitAccuracy.at(_layers.back().getPrediction()).first;
+            ++digitAccuracy.at(evalData.expectedDigit[i]).first;
         }
         else
         {
-            ++digitAccuracy.at(_layers.back().getPrediction()).second;
+            ++digitAccuracy.at(evalData.expectedDigit[i]).second;
         }
     }
 

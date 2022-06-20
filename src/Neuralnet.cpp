@@ -60,6 +60,16 @@ void NeuralNet::_feedThrough(Eigen::VectorXd& image, int expectedOutput)
     }
 }
 
+void NeuralNet::_feedThrough(Eigen::VectorXd& image)
+{
+    _layers.front().feedInput(const_cast<Eigen::VectorXd&>(image));
+
+    for(auto& layer: _layers)
+    {
+        layer.feedForward();
+    }
+}
+
 double NeuralNet::eval(const Data &evalData, std::vector<std::pair<u_int32_t, u_int32_t>> &digitAccuracy)
 {
     uint32_t correct = 0;
@@ -84,13 +94,7 @@ double NeuralNet::eval(const Data &evalData, std::vector<std::pair<u_int32_t, u_
 
 uint32_t NeuralNet::predict(const Eigen::VectorXd &input)
 {
-    _layers.front().feedInput(const_cast<Eigen::VectorXd &>(input));
-
-    for (auto layer : _layers)
-    {
-        layer.feedForward();
-    }
-
+    _feedThrough(const_cast<Eigen::VectorXd&>(input));
     return _layers.back().getPrediction();
 }
 

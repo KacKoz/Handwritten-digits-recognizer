@@ -23,6 +23,7 @@ public:
 private:
     void _createLayers(const std::vector<size_t>& sizes);
     void _feedThrough(Eigen::VectorXd& image, int expectedOutput);
+    void _feedThrough(Eigen::VectorXd& image);
     void _backpropagate(double learningRate);
 
     std::vector<Layer> _layers;
